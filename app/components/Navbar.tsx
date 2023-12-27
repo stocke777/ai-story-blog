@@ -1,6 +1,9 @@
-'use client'
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
+"use client";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+
 type Props = {};
 
 const navItems = [
@@ -11,8 +14,16 @@ const navItems = [
 ];
 
 const Navbar = (props: Props) => {
-    const pathname = usePathname()
-    console.log(pathname)
+	const pathname = usePathname();
+	const { status } = useSession();
+
+	console.log(pathname);
+
+	const handleLogout = async () => {
+		await signOut({ redirect: false, callbackUrl: "/" });
+		// The user is signed out, you can perform additional actions if needed
+	};
+
 	return (
 		<nav className='bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700'>
 			<div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
@@ -61,7 +72,9 @@ const Navbar = (props: Props) => {
 								<li key={item.id}>
 									<Link
 										href={item.href}
-										className={`block py-2 px-3 ${pathname===item.href ?'text-blue-700':'text-white'} hover:text-blue-700 ease-in-out duration-200`}
+										className={`block py-2 px-3 ${
+											pathname === item.href ? "text-blue-700" : "text-white"
+										} hover:text-blue-700 ease-in-out duration-200`}
 										aria-current='page'
 									>
 										{item.title}
@@ -69,6 +82,13 @@ const Navbar = (props: Props) => {
 								</li>
 							);
 						})}
+						<li key='auth'>
+							{status === "authenticated" ? (
+								<button onClick={handleLogout}>Logout</button>
+							) : (
+								<Link href={"/api/auth/signin"}>Login</Link>
+							)}
+						</li>
 					</ul>
 				</div>
 			</div>

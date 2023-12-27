@@ -23,10 +23,11 @@ export const authOptions = {
                     // const query = db('users').where({ username: req.body.username, password: req.body.password }).first();
                     // console.log('Query:', query.toString());
                     console.log(user)
-                    return user;
+                    return user
+                    return { id: 1, name: 'J Smith', email: 'jsmith@example.com' };
                 } catch (error) {
                     console.error('Error authenticating user:', error);
-                    return false
+                    return null
                 }
                 // You need to provide your own logic here that takes the credentials
                 // submitted and returns either a object representing a user or value
@@ -42,25 +43,18 @@ export const authOptions = {
             }
         })
     ],
-    session: {
-        jwt: true,
-        maxAge: 30,
-    },
     callbacks: {
-        async jwt(token) {
-            console.log(token)
-            const {token:jwtToken} = token
-            const {user, account} = jwtToken
-            console.log("WTFFFFFFFFFFFFFFFFF", jwtToken, user, account)
+        async jwt({ token, user }) {
+            console.log(token, user)
+            if (user) {
+              token.user = user;
+            }
             return token;
-        },
+          },
+        async session({ session, token }){
+            console.log( session, token  )
 
-        async session({session, token}) {
-            const user = token?.token?.user
-            console.log("WTFFFFFFFFFFFFFFFFF", session, token)
-
-            session.user = user || null
-
+            session.user = token.user
             return session;
         },
     },
