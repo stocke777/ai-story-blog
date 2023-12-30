@@ -1,7 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import db from '@/sqliteDB'
-import { profile } from "console";
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -24,7 +23,6 @@ export const authOptions = {
                     // console.log('Query:', query.toString());
                     console.log(user)
                     return user
-                    return { id: 1, name: 'J Smith', email: 'jsmith@example.com' };
                 } catch (error) {
                     console.error('Error authenticating user:', error);
                     return null

@@ -82,11 +82,27 @@ const Navbar = (props: Props) => {
 								</li>
 							);
 						})}
-						<li key='auth'>
+						<li
+							className='flex items-center justify-center '
+							key='auth'
+						>
 							{status === "authenticated" ? (
 								<button onClick={handleLogout}>Logout</button>
 							) : (
-								<Link href={"/api/auth/signin"}>Login</Link>
+								<div>
+									<Link
+										className='hover:text-blue-700 ease-in-out duration-200'
+										href={"/api/auth/signin"}
+									>
+										Login
+									</Link>
+									{<Link
+										className='ml-8 hover:text-blue-700 ease-in-out duration-200'
+										href={"/register"}
+									>
+										Register
+									</Link>}
+								</div>
 							)}
 						</li>
 					</ul>
