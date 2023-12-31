@@ -7,7 +7,8 @@ import { useSession } from "next-auth/react";
 type Props = {};
 
 const navItems = [
-	{ id: "home", title: "Home", href: "/home" },
+	{ id: "create", title: "Create", href: "/create" },
+	{ id: "home", title: "Home", href: "/" },
 	{ id: "stories", title: "Stories", href: "/stories" },
 	{ id: "images", title: "Images", href: "/images" },
 	{ id: "profile", title: "Profile", href: "/profile" },

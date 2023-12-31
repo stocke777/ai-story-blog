@@ -7,5 +7,7 @@ export interface Blog {
     userId: number;
     created_at: Date;
     updated_at: Date;
+    slug:string;
+    summary:string
   }
   
