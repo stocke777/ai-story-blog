@@ -6,18 +6,21 @@ import { useSession } from "next-auth/react";
 
 type Props = {};
 
-const navItems = [
-	{ id: "create", title: "Create", href: "/create" },
-	{ id: "home", title: "Home", href: "/" },
-	{ id: "stories", title: "Stories", href: "/stories" },
-	{ id: "images", title: "Images", href: "/images" },
-	{ id: "profile", title: "Profile", href: "/profile" },
-];
-
 const Navbar = (props: Props) => {
 	const pathname = usePathname();
 	const { status } = useSession();
-
+	const navItems = [
+		{
+			id: "create",
+			title: "Create",
+			href: "/create",
+			show: status === "authenticated",
+		},
+		{ id: "home", title: "Home", href: "/", show: true },
+		{ id: "stories", title: "Stories", href: "/stories", show: true },
+		{ id: "images", title: "Images", href: "/images", show: true },
+		{ id: "profile", title: "Profile", href: "/profile", show: true },
+	];
 	console.log(pathname);
 
 	const handleLogout = async () => {
@@ -70,10 +73,13 @@ const Navbar = (props: Props) => {
 					<ul className='flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
 						{navItems.map((item) => {
 							return (
-								<li key={item.id}>
+								item.show && <li
+									key={item.id}
+									className='list-none no-underline'
+								>
 									<Link
 										href={item.href}
-										className={`block py-2 px-3 ${
+										className={`block py-2 px-3 no-underline ${
 											pathname === item.href ? "text-blue-700" : "text-white"
 										} hover:text-blue-700 ease-in-out duration-200`}
 										aria-current='page'
@@ -88,21 +94,28 @@ const Navbar = (props: Props) => {
 							key='auth'
 						>
 							{status === "authenticated" ? (
-								<button onClick={handleLogout}>Logout</button>
+								<button
+									className='bg-inherit text-white hover:text-blue-700 ease-in-out duration-200 no-underline'
+									onClick={handleLogout}
+								>
+									Logout
+								</button>
 							) : (
 								<div>
 									<Link
-										className='hover:text-blue-700 ease-in-out duration-200'
+										className=' text-white hover:text-blue-700 ease-in-out duration-200 no-underline'
 										href={"/api/auth/signin"}
 									>
 										Login
 									</Link>
-									{<Link
-										className='ml-8 hover:text-blue-700 ease-in-out duration-200'
-										href={"/register"}
-									>
-										Register
-									</Link>}
+									{
+										<Link
+											className=' text-white ml-8 hover:text-blue-700 ease-in-out duration-200 no-underline'
+											href={"/register"}
+										>
+											Register
+										</Link>
+									}
 								</div>
 							)}
 						</li>
