@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import BlogListingBody from "../components/BlogListingBody";
 import { Blog } from "@/types";
 
 type Props = {};
@@ -30,22 +30,7 @@ const page = async (props: Props) => {
 			<h2 className='text-4xl text-center mb-8'>Stories List</h2>
 			<ul className='flex flex-col justify-around items-center max-h-screen'>
 				{blogs.map((blog: Blog) => (
-					<>
-						<li
-							className='mb-2 w-full list-none '
-							key={blog.id}
-						>
-							<Link
-								href={`/story/${blog.slug}`}
-								className='text-white no-underline hover:text-blue-300 ease-in-out duration-200'
-							>
-								<h3 className='text-3xl'>{blog.title}</h3>
-								<p>{blog.summary}</p>
-								<p>Author ID: {blog.userId}</p>
-							</Link>
-							<hr />
-						</li>
-					</>
+					<BlogListingBody blog={blog}/>
 				))}
 			</ul>
 		</div>

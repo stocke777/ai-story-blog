@@ -3,8 +3,6 @@ import db from '@/sqliteDB'
 import { Blog } from '@/types'
 
 export async function GET(req: Request, {params}:{params:{slug:string}}) {
-	console.log("WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", params)
-	console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 
     try {
 		const blog:Blog = await db("blogs").where('slug', params.slug).first();

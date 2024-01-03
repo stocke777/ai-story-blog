@@ -9,5 +9,11 @@ export interface Blog {
     updated_at: Date;
     slug:string;
     summary:string
+    tag_names:string;
+  }
+
+  export interface Tag {
+    tagid: string;
+    name:string
   }
   
