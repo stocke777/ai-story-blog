@@ -165,7 +165,7 @@ export default function CustomizedHook({
 	setSelectedTags,
 }: {
 	options: Tag[];
-	setSelectedTags?: (val: Tag[]) => void;
+	setSelectedTags?: (value: Tag[]) => void;
 }) {
 	const {
 		getRootProps,

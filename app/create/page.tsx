@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import Editor from "@/app/components/JoditEditor";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ErrorProps } from "next/error";
 import { Tag } from "@/types";
+import {useFetchTagsData} from "@/utility"
 
 type Props = {};
 
@@ -15,23 +15,7 @@ const page = (props: Props) => {
 	const router = useRouter();
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await fetch("http://localhost:3000/api/getTags");
-				if (!response.ok) {
-					throw new Error("Failed to fetch data");
-				}
-
-				const result = await response.json();
-				setTags(result.data);
-			} catch (error) {
-				console.error(error?.message);
-			} finally {
-				setTagLoading(false);
-			}
-		};
-
-		fetchData();
+		useFetchTagsData("http://localhost:3000/api/getTags", setTags, setTagLoading);
 	}, []);
 
 	const handleClick = async (
@@ -69,7 +53,6 @@ const page = (props: Props) => {
 
 				if (response.ok) {
 					const data = await response.json();
-					console.log(data);
 					alert(`Submission successful`);
 
 					router.push("/stories");

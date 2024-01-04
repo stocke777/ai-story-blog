@@ -10,10 +10,6 @@ const Editor = ({ handleClick, tagOptions }) => {
 	const [summary, setSummary] = useState("")
 	const [selectedTags, setSelectedTags] = useState([])
 
-	const onChange = (value) => {
-		console.log(value)
-	}
-
 	console.log(tagOptions, selectedTags)
 	const onBlur = useCallback(
 		(newContent) => {
@@ -23,7 +19,6 @@ const Editor = ({ handleClick, tagOptions }) => {
 	);
 	return (
 		<div className={`flex-col ${flexCenter}`}>
-
 			<div className='m-4 w-full'>
 				<label for="title" class="block mb-2  font-medium text-gray-900 dark:text-white">Title <span className='text-xs'>(required)</span></label>
 				<input type="text" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Title" required={true} value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -45,7 +40,7 @@ const Editor = ({ handleClick, tagOptions }) => {
 				/>
 			</div>
 
-			<AutoComplete  options={tagOptions} setSelectedTags={setSelectedTags} />
+			<AutoComplete options={tagOptions} setSelectedTags={setSelectedTags} />
 
 			<button className="text-blue-700 font-bold rounded-md bg-blue-100 hover:bg-white hover:cursor-pointer hover:text-black ease-in-out duration-300 py-2 px-4 mt-8 text-2xl" onClick={() => handleClick(title, content, summary, selectedTags)}>
 				Submit

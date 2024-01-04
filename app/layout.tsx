@@ -21,7 +21,7 @@ export default function RootLayout({
 			<ContextProvider>
 				<body className={inter.className}>
 					<Navbar />
-					<div className='w-full mb-4'>{children}</div>
+					<div className='w-full mb-4 max-w-[1560px] mx-auto'>{children}</div>
 				</body>
 			</ContextProvider>
 		</html>

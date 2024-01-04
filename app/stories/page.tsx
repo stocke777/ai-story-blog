@@ -28,7 +28,7 @@ const page = async (props: Props) => {
 	return (
 		<div className='w-[70%] mx-auto my-16'>
 			<h2 className='text-4xl text-center mb-8'>Stories List</h2>
-			<ul className='flex flex-col justify-around items-center max-h-screen'>
+			<ul className='flex flex-col justify-around items-center'>
 				{blogs.map((blog: Blog) => (
 					<BlogListingBody blog={blog}/>
 				))}
