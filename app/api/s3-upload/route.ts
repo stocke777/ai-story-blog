@@ -11,19 +11,33 @@ const s3Client = new S3Client({
     }
 })
 
+function generateRandomString() {
+    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randomString = '';
+  
+    for (let i = 0; i < 15; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
+    }
+  
+    return randomString;
+  }
+
 async function uploadFileToS3(file:Buffer, fileName:string) {
     console.log(file, fileName)
 
+    const randomString = generateRandomString();
+    const randomfilename = `images/${fileName}-${randomString}`
     const params = {
         Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME,
-        Key: `images/${fileName}-${Date.now()}`,
+        Key: randomfilename,
         Body: file,
         ContentType: "image/jpg"
     }
 
     const command = new PutObjectCommand(params);
     await s3Client.send(command)
-    return fileName
+    return randomfilename
 }
 
 export async function POST(req: Request) {

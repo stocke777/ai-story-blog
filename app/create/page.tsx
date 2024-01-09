@@ -43,7 +43,7 @@ const page = (props: Props) => {
 			};
 
 			try {
-				const response = await fetch("http://localhost:3000/api/create", {
+				const response = await fetch("/api/create", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -61,7 +61,7 @@ const page = (props: Props) => {
 				}
 			} catch (error) {
 				console.error("Error:", error);
-				alert("Registration failed. Please try again.");
+				alert("Creation failed. Please try again.");
 			}
 		}
 	};

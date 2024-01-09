@@ -3,9 +3,11 @@ import React, { useState, useEffect, FormEvent } from "react";
 import AutoComplete from "@/app/components/Autocomplete";
 import { useFetchTagsData } from "@/utility";
 import { Tag } from "@/types";
+import { useSession } from "next-auth/react";
 type Props = {};
 
 const page = (props: Props) => {
+	const { data: session, status } = useSession();
 	const [title, setTitle] = useState("");
 	const [prompt, setPrompt] = useState("");
 	const [tags, setTags] = useState([]);
@@ -30,11 +32,48 @@ const page = (props: Props) => {
 		}
 	};
 
-	const handleClick = (e: FormEvent) => {
+	const handleClick = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log(title, selectedTags, prompt, file?.name);
+		if (!file) {
+			alert("Please upload image");
+		} else {
+			console.log(title, selectedTags, prompt, file?.name);
+
+			const formData = new FormData();
+			formData.append("file", file);
+
+			try {
+				const response = await fetch("/api/s3-upload", {
+					method: "POST",
+					body: formData,
+				});
+
+				const data = await response.json();
+				console.log(data);
+				if (data?.fileName && session?.user?.id) {
+					console.log(data.fileName, session.user.id, selectedTags);
+
+					const selectedTagsJson = JSON.stringify(selectedTags)
+					fetch("/api/imageSave", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							name: data.fileName,
+							userId: session.user.id,
+							tags: selectedTagsJson,
+							title,
+							prompt,
+						}),
+					});
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		}
 	};
-    console.log(file)
+	console.log(file);
 
 	return (
 		<div className='text-white mx-auto w-[70%] p-8'>
@@ -82,7 +121,9 @@ const page = (props: Props) => {
 						</svg>
 						<p className='mb-2 text-sm text-gray-500 dark:text-gray-400'>
 							{file?.name ? (
-								<span className='font-bold text-2xl'>Current File: {file?.name}</span>
+								<span className='font-bold text-2xl'>
+									Current File: {file?.name}
+								</span>
 							) : (
 								<span className='font-semibold'>Click to upload</span>
 							)}
